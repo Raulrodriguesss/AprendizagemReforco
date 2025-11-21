@@ -4,8 +4,8 @@ import random
 
 def main():
     LIMITE = 50
-    NUM_MACACOS = 5
-    NUM_PREDADORES = 2
+    NUM_MACACOS = 10
+    NUM_PREDADORES = 10
     TURNOS = 50
 
     # ----- Criar predadores -----
@@ -65,7 +65,7 @@ def main():
 
                 print(
                     f"Macaco ({m.x:.1f},{m.y:.1f}) "
-                    f"emitiu '{sinal}' para {predador_proximo.nome}"
+                    f"emitiu '{sinal}' para {predador_proximo.especie} "
                 )
 
                 # outros macacos aprendem

@@ -1,0 +1,5 @@
+import Predador
+
+class Tigre(Predador):
+    def __init__(self, x, y, id):
+        super().__init__(x, y, "cobra", id)
