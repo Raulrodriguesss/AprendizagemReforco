@@ -1,63 +1,78 @@
-from macaco import Macaco
-from predador import Predador
+from Macaco import Macaco
+from Predador import Predador
 import random
 
 def main():
-    LIMITE = 50               # tamanho do ambiente
+    LIMITE = 50
     NUM_MACACOS = 5
     NUM_PREDADORES = 2
-    TURNOS = 50               # número de iterações
-    
+    TURNOS = 50
+
     # ----- Criar predadores -----
     predadores = []
     for i in range(NUM_PREDADORES):
-        x = random.uniform(0, LIMITE)
-        y = random.uniform(0, LIMITE)
-        predadores.append(Predador(id_predador=i, x=x, y=y))
+        p = Predador(nome=f"Predador{i}", especie="Tigre")
+        p.x = random.uniform(0, LIMITE)
+        p.y = random.uniform(0, LIMITE)
+        predadores.append(p)
 
     # ----- Criar macacos -----
-    # pesos[sinal][id_predador]
-    sinais = ["grito", "latido", "chiado"]
+    sinais = ["grito", "chiado", "latido"]
 
     macacos = []
     for _ in range(NUM_MACACOS):
+        # pesos[sinal][predador_nome]
         pesos = {
-            sinal: {p.id: random.uniform(0, 1) for p in predadores}
+            sinal: {p.nome: random.uniform(0, 1) for p in predadores}
             for sinal in sinais
         }
+
         x = random.uniform(0, LIMITE)
         y = random.uniform(0, LIMITE)
-        macacos.append(
-            Macaco(x, y, pesos, raio_predador=5, raio_alarme=10)
+
+        macaco = Macaco(
+            x=x,
+            y=y,
+            pesos=pesos,
+            raio_predador=5,
+            raio_alarme=10
         )
+        macacos.append(macaco)
 
     # ----- Loop da simulação -----
     for t in range(TURNOS):
         print(f"\n=== TURNO {t} ===")
-        
-        # 1) Mover predadores
+
+        # mover predadores
         for p in predadores:
             p.mover(limite=LIMITE)
 
-        # 2) Mover macacos
+        # mover macacos
         for m in macacos:
             m.mover(limite=LIMITE)
 
-        # 3) Verificar percepções e alarmes
+        # detectar predadores e emitir alarmes
         for m in macacos:
+
             if m.perceber_predador(predadores):
-                # pega o predador mais perto para escolher sinal
+                # pega o predador mais próximo
                 predador_proximo = min(
                     predadores,
-                    key=lambda p: ((m.x - p.x)**2 + (m.y - p.y)**2)
+                    key=lambda p: (m.x - p.x)**2 + (m.y - p.y)**2
                 )
+
                 sinal = m.emitir_alarme(predador_proximo)
-                print(f"Macaco em ({m.x:.1f},{m.y:.1f}) emitiu sinal:", sinal)
+
+                print(
+                    f"Macaco ({m.x:.1f},{m.y:.1f}) "
+                    f"emitiu '{sinal}' para {predador_proximo.nome}"
+                )
 
                 # outros macacos aprendem
                 for outro in macacos:
                     if outro is not m:
-                        outro.ouvir_alarme(sinal, predador_proximo.id)
+                        outro.ouvir_alarme(sinal, predador_proximo.nome)
+
 
 if __name__ == "__main__":
     main()

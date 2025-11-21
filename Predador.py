@@ -5,6 +5,8 @@ class Predador:
     def __init__(self, nome, especie):
         self.nome = nome
         self.especie = especie
+        self.x = 0
+        self.y = 0
     
     def mover(self, limite=50):
         self.x += random.uniform(-1, 1)
