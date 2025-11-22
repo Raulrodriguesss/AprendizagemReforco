@@ -1,4 +1,4 @@
-import Predador
+from Predador import Predador
 
 class Tigre(Predador):
     def __init__(self, x, y, id):

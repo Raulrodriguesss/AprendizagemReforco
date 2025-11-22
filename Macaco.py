@@ -23,11 +23,21 @@ class Macaco:
         return None
 
     def emitir_alarme(self, predador):
-        nome_pred = predador.nome
         # escolher o sinal com maior peso associado a esse predador
-        melhor_sinal = max(self.pesos.keys(), key=lambda s: self.pesos[s][nome_pred])
+        melhor_sinal = max(self.pesos.keys(), key=lambda s: self.pesos[s][predador.especie])
         return melhor_sinal
 
     def ouvir_alarme(self, sinal, nome_predador):
         # aprendizagem: aumenta o peso daquele sinal para aquele predador
         self.pesos[sinal][nome_predador] += 0.1
+
+    # dentro da classe Macaco
+    def registrar_estado(self, historico, iteracao):
+        # Salva uma cópia profunda da matriz de pesos
+        historico.append({
+            "iteracao": iteracao,
+            "pesos": {
+                sinal: valores.copy()
+                for sinal, valores in self.pesos.items()
+            }
+        })

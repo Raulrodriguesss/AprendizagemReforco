@@ -2,11 +2,11 @@ import random
 
 
 class Predador: 
-    def __init__(self, nome, especie):
-        self.nome = nome
+    def __init__(self, x, y, especie, id):
+        self.x = x
+        self.y = y
         self.especie = especie
-        self.x = 0
-        self.y = 0
+        self.id = id
     
     def mover(self, limite=50):
         self.x += random.uniform(-1, 1)
