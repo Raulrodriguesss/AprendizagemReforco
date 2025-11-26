@@ -36,10 +36,10 @@ def plotar_evolucao_por_predador(historicos, predador, filename):
 
     for id_macaco, hist in historicos.items():
         x = [h["iteracao"] for h in hist]
-        y = [h["pesos"]["grito"][predador] for h in hist]  # pode escolher outro sinal
+        y = [h["pesos"]["chiado"][predador] for h in hist]  # pode escolher outro sinal
         plt.plot(x, y, label=f"Macaco {id_macaco}")
 
-    plt.title(f"Evolução do peso 'grito' para predador '{predador}'")
+    plt.title(f"Evolução do peso 'chiado' para predador '{predador}'")
     plt.xlabel("Iteração")
     plt.ylabel("Peso f")
     plt.grid()
